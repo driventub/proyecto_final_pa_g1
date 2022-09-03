@@ -52,7 +52,7 @@ public class Vehiculo {
 	@Column(name = "vehi_estado")
 	private String estado;
 
-	@OneToMany(mappedBy = "vehiculoReservado", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "vehiculo", cascade = CascadeType.ALL)
 	private List<Reserva> reservaVehiculo;
 
 	// gets and sets

@@ -44,8 +44,9 @@ public class GestorClienteServiceImpl implements IGestorClienteService , IIVASer
 
 	@Override
 	public List<Vehiculo> buscarVehiculosDisponibles(String marca, String modelo) {
-
-		return this.iVehiculoService.buscarMarcaModelo(marca, modelo);
+		List<Vehiculo> lista = this.iVehiculoService.buscarMarcaModelo(marca, modelo);
+		lista.forEach(vehi -> System.out.println(vehi));
+		return lista;
 	}
 
 	@Override
@@ -79,6 +80,7 @@ public class GestorClienteServiceImpl implements IGestorClienteService , IIVASer
 	@Transactional
 	public void registrarCliente(Cliente cliente) {
 		cliente.setTipoRegistro('C');
+		cliente.setReservaActiva(0);
 		this.iClienteService.insertar(cliente);
 	}
 
@@ -143,6 +145,7 @@ public class GestorClienteServiceImpl implements IGestorClienteService , IIVASer
 
 	}
 
+	// Para que es esto??
 	@Override
 	public List<String> buscarVehiculosDisponiblesTexto(String marca, String modelo) {
 		List<Vehiculo> lista = this.iVehiculoService.buscarMarcaModelo(marca, modelo);

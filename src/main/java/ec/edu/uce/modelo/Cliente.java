@@ -35,7 +35,7 @@ public class Cliente {
 	private String cedula;
 
 	@Column(name = "clie_fecha_nacimiento", columnDefinition = "TIMESTAMP")
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
 
 	private LocalDate fechaNacimiento;
 
@@ -50,7 +50,7 @@ public class Cliente {
 
 	
 
-	@OneToMany(mappedBy = "clienteReserva", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
 	private List<Reserva> reservas;
 
 	// gets and set
