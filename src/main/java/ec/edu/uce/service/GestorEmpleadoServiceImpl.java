@@ -27,12 +27,13 @@ public class GestorEmpleadoServiceImpl implements IGestorEmpleadoService {
 	@Transactional
 	public void registrarCliente(Cliente cliente) {
 		cliente.setTipoRegistro('E');
-		this.iClienteService.insertar(cliente);
+		cliente.setReservaActiva(0);
+		this.iClienteService.insertarCliente(cliente);
 	}
 
 	@Override
 	public Cliente buscarCliente(String cedula) {
-		return this.iClienteService.buscarCedula(cedula);
+		return this.iClienteService.buscarClientePorCedula(cedula);
 	}
 
 	@Override
@@ -55,7 +56,7 @@ public class GestorEmpleadoServiceImpl implements IGestorEmpleadoService {
 	@Override
 	public RetirarVehiculoTO generarTexto(String numeroReserva) {
 		Reserva reserva = this.iReservaService.buscarPorNumero(numeroReserva);
-		Cliente cliente = this.iClienteService.buscar(reserva.getCliente().getId());
+		Cliente cliente = this.iClienteService.buscarClientePorId(reserva.getCliente().getId());
 		Vehiculo vehiculo = this.iVehiculoService.buscar(reserva.getVehiculo().getId());
 
 		String estado = (vehiculo.getEstado() == "D") ? "Disponible" : "No Disponible";

@@ -31,31 +31,38 @@ public class ClienteServiceImpl implements IClienteService {
 
 	@Override
 	@Transactional
-	public void insertar(Cliente cliente) {
+	public void insertarCliente(Cliente cliente) {
 		this.iClienteRepo.insertar(cliente);
 	}
 
 	@Override
 	@Transactional
-	public void actualizar(Cliente cliente) {
+	public void actualizarCliente(Cliente cliente) {
 		this.iClienteRepo.actualizar(cliente);
 	}
 
 	@Override
-	public Cliente buscar(Integer id) {
+	public Cliente buscarClientePorId(Integer id) {
 		return this.iClienteRepo.buscar(id);
 	}
 
 	@Override
 	@Transactional
-	public void borrar(Integer id) {
+	public void borrarClientePorId(Integer id) {
 		this.iClienteRepo.borrar(id);
 	}
 
 	@Override
-	public Cliente buscarCedula(String cedula) {
+	public Cliente buscarClientePorCedula(String cedula) {
 		return this.iClienteRepo.buscarCedula(cedula);
 	}
+	
+	@Override
+	public List<Cliente> listarClientesPorApellido(String apellido) {
+		// TODO Auto-generated method stub
+		return this.iClienteRepo.buscarPorApellido(apellido);
+	}
+	
 
 	@Override
 	@Async
@@ -85,8 +92,14 @@ public class ClienteServiceImpl implements IClienteService {
 			});
 			return CompletableFuture.completedFuture(lista2);
 		}
-
 		return CompletableFuture.completedFuture(null);
 	}
+
+	@Override
+	public List<Cliente> listarClientes() {		
+		return this.iClienteRepo.listarClientes();
+	}
+
+
 
 }

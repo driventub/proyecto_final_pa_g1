@@ -50,12 +50,12 @@ public class GestorClienteServiceImpl implements IGestorClienteService , IIVASer
 	}
 
 	@Override
-	@Transactional
+	@Transactional(value=TxType.REQUIRED)
 	public void reservarVehiculo(String placa, String cedulaCliente, LocalDateTime fechaInicio,
 			LocalDateTime fechaFinal, String numeroTarjeta) {
 
 		Vehiculo vehiculo = this.iVehiculoService.buscarPorPlaca(placa);
-		Cliente cliente = this.iClienteService.buscarCedula(cedulaCliente);
+		Cliente cliente = this.iClienteService.buscarClientePorCedula(cedulaCliente);
 
 		Reserva reserva = new Reserva();
 		reserva.setCliente(cliente);
@@ -77,11 +77,11 @@ public class GestorClienteServiceImpl implements IGestorClienteService , IIVASer
 	}
 
 	@Override
-	@Transactional
+	@Transactional(value=TxType.REQUIRED)
 	public void registrarCliente(Cliente cliente) {
 		cliente.setTipoRegistro('C');
 		cliente.setReservaActiva(0);
-		this.iClienteService.insertar(cliente);
+		this.iClienteService.insertarCliente(cliente);
 	}
 
 	@Override

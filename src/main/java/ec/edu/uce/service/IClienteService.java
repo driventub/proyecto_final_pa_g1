@@ -9,15 +9,19 @@ import ec.edu.uce.modelo.Reserva;
 
 public interface IClienteService {
 
-	void insertar(Cliente cliente);
+	void insertarCliente(Cliente cliente);
 
-	void actualizar(Cliente cliente);
+	void actualizarCliente(Cliente cliente);
 
-	Cliente buscar(Integer id);
+	Cliente buscarClientePorId(Integer id);
 
-	Cliente buscarCedula(String cedula);
+	Cliente buscarClientePorCedula(String cedula);
 
-	void borrar(Integer id);
+	void borrarClientePorId(Integer id);
+	
+	List<Cliente> listarClientes();
+	
+	List<Cliente> listarClientesPorApellido(String apellido);
 
 	CompletableFuture<List<ReporteClienteVIPTO>> clientesVip(List<Reserva> listaVuelo, String tipo);
 }
