@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ec.edu.uce.modelo.Cliente;
+import ec.edu.uce.modelo.Reserva;
 import ec.edu.uce.modelo.Vehiculo;
 import ec.edu.uce.service.IGestorClienteService;
+import ec.edu.uce.service.IVehiculoService;
 
 @Controller
 @RequestMapping("/clientes")
@@ -21,6 +23,9 @@ public class ClienteController {
 
     @Autowired
     private IGestorClienteService cliente;
+    @Autowired
+    private IVehiculoService vehiculoService;
+    
 
     // c.a
     @GetMapping("/vehiculoBuscar")
@@ -38,6 +43,17 @@ public class ClienteController {
 		return "v_m_marca";
 	}
 
+    
+    //c.b
+    @GetMapping("/reservaBuscar")
+    public String vistaPaginaBuscarVehiculoReserva(Reserva reserva) {
+
+    	return "c_buscar_vehiculo_reserva";
+    }
+    
+
+    
+    
 
     // c.c
 
@@ -56,5 +72,9 @@ public class ClienteController {
 
 		return "c_registro_valido";
 	}
+    
+    
+    
+    
 
 }
