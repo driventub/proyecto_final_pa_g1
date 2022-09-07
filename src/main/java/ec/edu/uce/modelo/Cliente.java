@@ -1,7 +1,6 @@
 package ec.edu.uce.modelo;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -35,11 +34,10 @@ public class Cliente {
 	@Column(name = "clie_cedula")
 	private String cedula;
 
-	//@Column(name = "clie_fecha_nacimiento", columnDefinition = "TIMESTAMP")
-	//@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-	@Column(name = "clie_fecha_nacimiento")
-	@DateTimeFormat(pattern = "yyyy-MM-dd\'T\'HH:mm")
-	private LocalDateTime fechaNacimiento;
+	@Column(name = "clie_fecha_nacimiento", columnDefinition = "TIMESTAMP")
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+
+	private LocalDate fechaNacimiento;
 
 	@Column(name = "clie_genero")
 	private String genero;
@@ -88,11 +86,11 @@ public class Cliente {
 		this.cedula = cedula;
 	}
 
-	public LocalDateTime getFechaNacimiento() {
+	public LocalDate getFechaNacimiento() {
 		return fechaNacimiento;
 	}
 
-	public void setFechaNacimiento(LocalDateTime fechaNacimiento) {
+	public void setFechaNacimiento(LocalDate fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 

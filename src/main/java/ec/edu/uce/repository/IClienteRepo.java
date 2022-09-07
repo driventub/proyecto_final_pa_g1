@@ -1,7 +1,5 @@
 package ec.edu.uce.repository;
 
-import java.util.List;
-
 import ec.edu.uce.modelo.Cliente;
 
 public interface IClienteRepo {
@@ -15,9 +13,4 @@ public interface IClienteRepo {
 	Cliente buscarCedula(String cedula);
 
 	void borrar(Integer id);
-
-	List<Cliente> listarClientes();
-
-	List<Cliente> buscarPorApellido(String apellido);
-
 }
