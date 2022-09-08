@@ -56,4 +56,22 @@ public class VehiculoRepoImpl implements IVehiculoRepo {
 		return myQuery.getResultList();
 	}
 
+	@Override
+	public boolean verificarVehiculo(Integer id) {
+		Vehiculo v = this.buscar(id);
+		if (v.getEstado().equals("D")) {
+			return true;	
+		}else{
+			return false;
+		}
+		
+	}
+
+	@Override
+	public List<Vehiculo> buscarTodos() {
+		TypedQuery<Vehiculo> myQuery = this.entityManager
+				.createQuery("SELECT v FROM Vehiculo v", Vehiculo.class);
+		return myQuery.getResultList();
+	}
+
 }

@@ -20,4 +20,6 @@ public interface IClienteRepo {
 
 	List<Cliente> buscarPorApellido(String apellido);
 
+	boolean verificarReserva(Integer id);
+
 }

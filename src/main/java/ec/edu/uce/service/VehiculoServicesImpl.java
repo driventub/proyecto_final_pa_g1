@@ -50,4 +50,16 @@ public class VehiculoServicesImpl implements IVehiculoService {
 		return this.iVehiculoRepo.buscarPorPlaca(placa);
 	}
 
+	@Override
+	public boolean verificarVehiculo(Integer id) {
+		
+		return this.iVehiculoRepo.verificarVehiculo(id);
+	}
+
+	@Override
+	public List<Vehiculo> buscarTodos() {
+		
+		return this.iVehiculoRepo.buscarTodos();
+	}
+
 }

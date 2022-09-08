@@ -17,4 +17,8 @@ public interface IVehiculoService {
 	Vehiculo buscarPorPlaca(String placa);
 
 	List<Vehiculo> buscarMarcaModelo(String marca, String modelo);
+
+	List<Vehiculo> buscarTodos();
+
+	boolean verificarVehiculo(Integer id) ;
 }

@@ -2,7 +2,6 @@ package ec.edu.uce.repository;
 
 import java.util.List;
 
-import ec.edu.uce.modelo.ReporteVehiculosVIPTO;
 import ec.edu.uce.modelo.Vehiculo;
 
 public interface IVehiculoRepo {
@@ -18,6 +17,9 @@ public interface IVehiculoRepo {
 	Vehiculo buscarPorPlaca(String placa);
 
 	List<Vehiculo> buscarMarcaModelo(String marca, String modelo);
+	List<Vehiculo> buscarTodos();
+
+	boolean verificarVehiculo(Integer id);
 
 
 

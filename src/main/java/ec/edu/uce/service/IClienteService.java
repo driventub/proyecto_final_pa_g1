@@ -24,4 +24,6 @@ public interface IClienteService {
 	List<Cliente> listarClientesPorApellido(String apellido);
 
 	CompletableFuture<List<ReporteClienteVIPTO>> clientesVip(List<Reserva> listaVuelo, String tipo);
+
+	boolean verificarReserva(Integer id);
 }

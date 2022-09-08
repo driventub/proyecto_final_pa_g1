@@ -60,4 +60,15 @@ public class ClienteRepoImpl implements IClienteRepo {
 		return myQ.setParameter("apellido", apellido).getResultList();
 	}
 
+	@Override
+	public boolean verificarReserva(Integer id) {
+		Cliente cliente = this.buscar(id);
+		if (cliente.getReservaActiva() > 0) {
+			return false;	
+		}else{
+			return true;
+		}
+		
+	}
+
 }

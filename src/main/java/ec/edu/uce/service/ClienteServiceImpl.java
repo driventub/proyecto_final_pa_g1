@@ -100,6 +100,12 @@ public class ClienteServiceImpl implements IClienteService {
 		return this.iClienteRepo.listarClientes();
 	}
 
+	@Override
+	public boolean verificarReserva(Integer id) {
+		
+		return this.iClienteRepo.verificarReserva(id);
+	}
+
 
 
 }

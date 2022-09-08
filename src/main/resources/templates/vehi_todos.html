@@ -14,32 +14,30 @@
 </head>
 <body>
 
-	<div th:replace = "fragments/clie_header :: clie_empleado" ></div>
-	<!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+	
+	
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 		<div class="container-fluid">
-			<a class="navbar-brand" href="/empleados/todos">Control de
-				Clientes</a>
+			<a class="navbar-brand" href="/vehiculos/todos">Control de
+				Vehiculos</a>
 
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
 					<li class="nav-item"><a class="nav-link"
-						th:href="@{/empleados/registro}">Agregar Cliente</a></li>
+						href="#">Agregar Vehiculo</a></li>
 
 				</ul>
 
 			</div>
 		</div>
-	</nav> -->
-
-	
-
+	</nav>
 
 	<div th:classappend="'alert-' + (${clase != null} ? ${clase} : info)"
 		th:if="${mensaje != null}" th:text="${mensaje}" class="alert"></div>
 	<br>
 	<div class="container text-center">
-		<form class="form-inline" th:action="@{/empleados/todos}">
+		<!-- <form class="form-inline" th:action="@{/empleados/todos}">
 			<div class="form-group mb-2">
 				<label> Apellido: </label>
 			</div>
@@ -55,51 +53,60 @@
 			</div>
 
 			<br>
-		</form>
+		</form> -->
 
 
 		
-
 		<div class="card-body">
             <div th:classappend="'alert-' + (${clase2 != null} ? ${clase2} : info)" th:if="${mensaje2 != null}"
                 th:text="${mensaje2}" class="alert">
             </div>
         </div>
+		
+		
 
 		<table class="table">
 			<thead class="table-dark">
 				<tr>
-					<th>Nombre</th>
-					<th>Apellido</th>
-					<th>Cedula</th>
-					<th>Fecha de nacimiento</th>
-					<th>Genero</th>
+					<th>Placa</th>
+					<th>Modelo</th>
+					<th>Marca</th>
+					<th>Año de Fabricación</th>
+					<th>País</th>
+					<th>Cilindraje</th>
+					<th>Avaluo</th>
+					<th>Valor Por Dia</th>
+					<th>Estado</th>
 					<th>Acciones</th>
+					
+					
 				</tr>
 
 			</thead>
 			<tbody>
-				<tr th:each="cliente:${clientes}">
-					<td th:text="${cliente.nombre}"></td>
-					<td th:text="${cliente.apellido}"></td>
-					<td th:text="${cliente.cedula}"></td>
-					<td
-						th:text="${#temporals.format(cliente.fechaNacimiento,'dd-MM-yyyy')}"></td>
-					<td th:text="${cliente.genero}"></td>
+				<tr th:each="vehiculo:${vehiculos}">
+					<td th:text="${vehiculo.placa}"></td>
+					<td th:text="${vehiculo.modelo}"></td>
+					<td th:text="${vehiculo.marca}"></td>
+					<td th:text="${vehiculo.anioFabricacion}"></td>
+					
+					<td th:text="${vehiculo.pais}"></td>
+					<td th:text="${vehiculo.cilindraje}"></td>
+					<td th:text="${vehiculo.avaluo}"></td>
+					<td th:text="${vehiculo.valorPorDia}"></td>
+					<td th:text="${vehiculo.estado}"></td>
 					<td><a
-						th:href="@{/empleados/ver/{cedula}(cedula=${cliente.cedula})}"
+						th:href="@{/empleados/verVehi/{placa}(placa=${vehiculo.placa})}"
 						class="btn btn-secondary">Ver</a> <a
-						th:href="@{/empleados/editar/{cedula}(cedula=${cliente.cedula})}"
+						th:href="@{/empleados/editarVehi/{placa}(placa=${vehiculo.placa})}"
 						class="btn btn-info">Editar</a> <a
-						th:href="@{/empleados/eliminar/{cedula}(cedula=${cliente.cedula})}"
+						th:href="@{/empleados/eliminarVehi/{placa}(placa=${vehiculo.placa})}"
 						class="btn btn-danger">Eliminar</a></td>
 				</tr>
 
 			</tbody>
 
 		</table>
-		
-		
 	</div>
 
 	<script type="text/javascript">
