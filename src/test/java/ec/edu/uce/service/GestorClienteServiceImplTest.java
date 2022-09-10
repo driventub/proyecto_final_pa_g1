@@ -10,11 +10,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 
 import ec.edu.uce.modelo.Vehiculo;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @SpringBootTest
 @Rollback(true)
 @Transactional
 public class GestorClienteServiceImplTest {
+
+    private static Logger LOG =  LogManager.getLogger(GestorClienteServiceImpl.class);
 
     @Autowired
 	private IVehiculoService iVehiculoService;
@@ -22,6 +26,7 @@ public class GestorClienteServiceImplTest {
     @Test
     void testBuscarVehiculosDisponibles() {
         List<Vehiculo> lista = this.iVehiculoService.buscarMarcaModelo("Toyota", "Prius");
-		lista.forEach(vehi -> System.out.println(vehi));
+		lista.forEach(vehi -> LOG.info(vehi));
     }
+    
 }

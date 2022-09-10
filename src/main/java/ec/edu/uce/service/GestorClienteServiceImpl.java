@@ -20,8 +20,14 @@ import ec.edu.uce.modelo.Reserva;
 import ec.edu.uce.modelo.ReservarVehiculoTO;
 import ec.edu.uce.modelo.Vehiculo;
 
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 @Service
 public class GestorClienteServiceImpl implements IGestorClienteService , IIVAService {
+
+	private static Logger LOG =  LogManager.getLogger(GestorClienteServiceImpl.class);
 
 	@Autowired
 	private IClienteService iClienteService;
@@ -45,7 +51,7 @@ public class GestorClienteServiceImpl implements IGestorClienteService , IIVASer
 	@Override
 	public List<Vehiculo> buscarVehiculosDisponibles(String marca, String modelo) {
 		List<Vehiculo> lista = this.iVehiculoService.buscarMarcaModelo(marca, modelo);
-		lista.forEach(vehi -> System.out.println(vehi));
+		lista.forEach(vehi -> LOG.info(vehi));
 		return lista;
 	}
 
@@ -97,7 +103,7 @@ public class GestorClienteServiceImpl implements IGestorClienteService , IIVASer
 			List<Reserva> lista = this.iReservaService.buscarPorVehiculo(vehiculo);
 
 			if (lista.stream().filter(v -> fechaInicio.isBefore(v.getFechaFinal())).count() > 0) {
-				System.out.println(lista.stream().filter(v -> fechaInicio.isAfter(v.getFechaFinal())).count());
+				LOG.info(lista.stream().filter(v -> fechaInicio.isAfter(v.getFechaFinal())).count());
 				return false;
 			}
 			return true;
@@ -110,7 +116,7 @@ public class GestorClienteServiceImpl implements IGestorClienteService , IIVASer
 //		List<Reserva> lista = this.iReservaService.buscarPorVehiculo(vehiculo);
 //
 //		if (lista.stream().filter(v -> fechaInicio.isBefore(v.getFechaFinal())).count() > 0) {
-//			System.out.println(lista.stream().filter(v -> fechaInicio.isAfter(v.getFechaFinal())).count());
+//			LOG.info(lista.stream().filter(v -> fechaInicio.isAfter(v.getFechaFinal())).count());
 //			return false;
 //		}
 //		return true;

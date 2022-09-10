@@ -18,10 +18,13 @@ import ec.edu.uce.modelo.Vehiculo;
 import ec.edu.uce.service.IClienteService;
 import ec.edu.uce.service.IGestorEmpleadoService;
 import ec.edu.uce.service.IVehiculoService;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 @Controller
 @RequestMapping("/empleados")
 public class EmpleadoController {
+
+	private static Logger LOG =  LogManager.getLogger(EmpleadoController.class);
 
 	@Autowired
 	private IGestorEmpleadoService gestorEmpleadoService;
@@ -42,14 +45,14 @@ public class EmpleadoController {
 			RedirectAttributes redirectAttrs) {
 		this.gestorEmpleadoService.registrarCliente(cliente);
 		// return "c_registro_valido";
-		System.out.println("registrando tipo empleado");
+		LOG.info("registrando tipo empleado");
 		return "redirect:/empleados/todos?exito";
 	}
 
 	@GetMapping("/editar/{clieCedula}")
 	public String editarCliente(@PathVariable("clieCedula") String cedula, Cliente cliente, Model modelo) {
 		Cliente clie = this.clienteService.buscarClientePorCedula(cedula);
-		System.out.println(clie.toString());
+		LOG.info(clie.toString());
 		modelo.addAttribute("clie", clie);
 		return "clieActualizaE";
 	}
@@ -101,7 +104,7 @@ public class EmpleadoController {
 		List<Cliente> clientes = this.clienteService.listarClientesPorApellido(apellido);
 		modelo.addAttribute("clientes", clientes);
 		modelo.addAttribute("apellido", apellido);
-		System.out.println("apellido: " + apellido);
+		LOG.info("apellido: " + apellido);
 		if (apellido == null) {
 			modelo.addAttribute("clientes", clientes2);
 		}
@@ -119,7 +122,7 @@ public class EmpleadoController {
 		// this.clienteService.listarClientesPorApellido(apellido);
 		// modelo.addAttribute("clientes", clientes);
 		// modelo.addAttribute("apellido", apellido);
-		// System.out.println("apellido: " + apellido);
+		// LOG.info("apellido: " + apellido);
 		// if (apellido == null) {
 		// modelo.addAttribute("clientes", clientes2);
 		// }
@@ -139,7 +142,7 @@ public class EmpleadoController {
 	@GetMapping("/editarVehi/{placa}")
 	public String editarVehiculo(@PathVariable("placa") String placa, Model modelo) {
 		Vehiculo vehiculo = this.vehiculoService.buscarPorPlaca(placa);
-		System.out.println(vehiculo.toString());
+		LOG.info(vehiculo.toString());
 		modelo.addAttribute("vehiculo", vehiculo);
 		return "vehi_actualiza";
 	}
