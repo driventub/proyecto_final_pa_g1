@@ -6,10 +6,10 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,14 +20,8 @@ import ec.edu.uce.modelo.Reserva;
 import ec.edu.uce.modelo.ReservarVehiculoTO;
 import ec.edu.uce.modelo.Vehiculo;
 
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 @Service
 public class GestorClienteServiceImpl implements IGestorClienteService , IIVAService {
-
-	private static Logger LOG =  LogManager.getLogger(GestorClienteServiceImpl.class);
 
 	@Autowired
 	private IClienteService iClienteService;
@@ -49,20 +43,34 @@ public class GestorClienteServiceImpl implements IGestorClienteService , IIVASer
 	};
 
 	@Override
+	@Transactional(value=TxType.NOT_SUPPORTED)
 	public List<Vehiculo> buscarVehiculosDisponibles(String marca, String modelo) {
 		List<Vehiculo> lista = this.iVehiculoService.buscarMarcaModelo(marca, modelo);
-		lista.forEach(vehi -> LOG.info(vehi));
-		return lista;
+		List<Vehiculo> listaF = lista.stream().filter(valor -> valor.getEstado().equals("D")).collect(Collectors.toList());
+		// lista.forEach(vehi -> LOG.info(vehi));
+		return listaF;
 	}
+
 
 	@Override
 	@Transactional(value=TxType.REQUIRED)
 	public void reservarVehiculo(String placa, String cedulaCliente, LocalDateTime fechaInicio,
 			LocalDateTime fechaFinal, String numeroTarjeta) {
 
+		
+		
 		Vehiculo vehiculo = this.iVehiculoService.buscarPorPlaca(placa);
 		Cliente cliente = this.iClienteService.buscarClientePorCedula(cedulaCliente);
-
+//		ReservarVehiculoTO r=new ReservarVehiculoTO();
+//		r.setCedula(cedulaCliente);
+//		r.setPlaca(placa);
+//		r.setFechaFinal(fechaFinal);
+//		r.setFechaInicio(fechaInicio);
+//		r.setTarjeta(numeroTarjeta);
+//		
+//		
+//		boolean dispo = this.verificarDisponibilidad(null);
+		
 		Reserva reserva = new Reserva();
 		reserva.setCliente(cliente);
 		reserva.setEstado('G');
@@ -78,8 +86,14 @@ public class GestorClienteServiceImpl implements IGestorClienteService , IIVASer
 
 		reserva.setPagos(pago);
 		reserva.setVehiculo(vehiculo);
-
+		
+		cliente.setReservaActiva(cliente.getReservaActiva()+1);
+		
+		this.iClienteService.actualizarCliente(cliente);
 		this.iReservaService.insertar(reserva);
+
+	
+		
 	}
 
 	@Override
@@ -103,7 +117,7 @@ public class GestorClienteServiceImpl implements IGestorClienteService , IIVASer
 			List<Reserva> lista = this.iReservaService.buscarPorVehiculo(vehiculo);
 
 			if (lista.stream().filter(v -> fechaInicio.isBefore(v.getFechaFinal())).count() > 0) {
-				LOG.info(lista.stream().filter(v -> fechaInicio.isAfter(v.getFechaFinal())).count());
+				System.out.println(lista.stream().filter(v -> fechaInicio.isAfter(v.getFechaFinal())).count());
 				return false;
 			}
 			return true;
@@ -116,7 +130,7 @@ public class GestorClienteServiceImpl implements IGestorClienteService , IIVASer
 //		List<Reserva> lista = this.iReservaService.buscarPorVehiculo(vehiculo);
 //
 //		if (lista.stream().filter(v -> fechaInicio.isBefore(v.getFechaFinal())).count() > 0) {
-//			LOG.info(lista.stream().filter(v -> fechaInicio.isAfter(v.getFechaFinal())).count());
+//			System.out.println(lista.stream().filter(v -> fechaInicio.isAfter(v.getFechaFinal())).count());
 //			return false;
 //		}
 //		return true;

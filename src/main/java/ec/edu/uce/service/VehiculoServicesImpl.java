@@ -62,4 +62,10 @@ public class VehiculoServicesImpl implements IVehiculoService {
 		return this.iVehiculoRepo.buscarTodos();
 	}
 
+	@Override
+	public List<Vehiculo> buscarMarca(String marca) {
+	
+		return this.iVehiculoRepo.buscarMarca(marca);
+	}
+
 }

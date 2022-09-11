@@ -72,13 +72,20 @@ public class GestorEmpleadoServiceImpl implements IGestorEmpleadoService {
 
 	@Override
 	@Transactional
-	public void retirarVehiculoReservado(String numeroReserva) {
-		Reserva reserva = this.iReservaService.buscarPorNumero(numeroReserva);
-		Vehiculo vehiculo = this.iVehiculoService.buscar(reserva.getVehiculo().getId());
-		vehiculo.setEstado("ND");
-		reserva.setEstado('E');
-		this.iVehiculoService.actualizar(vehiculo);
-		this.iReservaService.actualizar(reserva);
+	public void retirarVehiculoReservado(Reserva reserva, Vehiculo vehiculo) {
+		Reserva r = this.iReservaService.buscar(reserva.getId());
+		Vehiculo v = this.iVehiculoService.buscarPorPlaca(vehiculo.getPlaca());
+//		Cliente c = this.buscarCliente(cliente.getCedula());
+		v.setEstado("ND");
+		r.setEstado('E');
+//		if(c==null ) {
+//			cliente.setReservaActiva(1);
+//		}else {
+//			c.setReservaActiva(cliente.getReservaActiva()+1);
+//		}
+		this.iVehiculoService.actualizar(v);
+		this.iReservaService.actualizar(r);
+//		this.iClienteService.actualizarCliente(c);
 	}
 
 }

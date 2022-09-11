@@ -14,6 +14,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
 @Table(name = "reserva")
 public class Reserva {
@@ -27,10 +29,12 @@ public class Reserva {
 	@Column(name = "rese_numero")
 	private String numero;
 
-	@Column(name = "rese_fecha_inicio", columnDefinition = "TIMESTAMP")
+	@Column(name = "rese_fecha_inicio")
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
 	private LocalDateTime fechaInicio;
 
-	@Column(name = "rese_fecha_final", columnDefinition = "TIMESTAMP")
+	@Column(name = "rese_fecha_final")
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
 	private LocalDateTime fechaFinal;
 
 	@Column(name = "rese_estado")

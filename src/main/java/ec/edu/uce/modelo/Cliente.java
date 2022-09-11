@@ -32,7 +32,7 @@ public class Cliente {
 	@Column(name = "clie_apellido")
 	private String apellido;
 
-	@Column(name = "clie_cedula")
+	@Column(name = "clie_cedula", unique = true)
 	private String cedula;
 
 	//@Column(name = "clie_fecha_nacimiento", columnDefinition = "TIMESTAMP")

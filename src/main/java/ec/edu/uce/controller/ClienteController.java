@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ec.edu.uce.modelo.Cliente;
@@ -19,22 +18,21 @@ import ec.edu.uce.modelo.ReservarVehiculoTO;
 import ec.edu.uce.modelo.Vehiculo;
 import ec.edu.uce.service.IClienteService;
 import ec.edu.uce.service.IGestorClienteService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 @Controller
 @RequestMapping("/clientes")
 public class ClienteController {
     
-	private static Logger LOG =  LogManager.getLogger(ClienteController.class);
 
     @Autowired
-    private IGestorClienteService iGestorClienteService;
+    private IGestorClienteService clienteeGestorServic;
       
     @Autowired
     private IClienteService clienteService;
 
+	/////////////////////////////////////////////////////////////////////////////////////
     // c.a
+	/////////////////////////////////////////////////////////////////////////////////////
     @GetMapping("/vehiculoBuscar")
 	public String obtenerVehiculo(Vehiculo vehiculo) {
 		return "v_buscar_marca";
@@ -44,35 +42,80 @@ public class ClienteController {
 	public String buscarVehiculo(Vehiculo vehiculo, BindingResult result, Model model,
 			RedirectAttributes redirectAttrs) {
 
-		List<Vehiculo> listaVehiculo = this.iGestorClienteService.buscarVehiculosDisponibles( vehiculo.getMarca(),vehiculo.getModelo());
+		List<Vehiculo> listaVehiculo = this.clienteeGestorServic.buscarVehiculosDisponibles( vehiculo.getMarca(),vehiculo.getModelo());
         model.addAttribute("listaVehiculo", listaVehiculo);
 		return "v_m_marca";
 	}
 
+	/////////////////////////////////////////////////////////////////////////////////////
+    //c.b
+	/////////////////////////////////////////////////////////////////////////////////////
+    
+    @GetMapping("/disponiblesBuscar")
+    public String vistaDisponibilidad(ReservarVehiculoTO reservarVehiculoTO) {
+    	
+    	return "v_b_disponibles";
+    }
+    
+    @PostMapping("/disponibles")
+    public String vistaBuscarDisponibles(ReservarVehiculoTO reservarVehiculoTO, Model modelo,RedirectAttributes redirectAttributes) {
+    	
+    	if (this.clienteeGestorServic.verificarDisponibilidad(reservarVehiculoTO)) {
+			redirectAttributes.addFlashAttribute("mensaje", "Vehiculo disponible");	
+			reservarVehiculoTO.setValorTotalAPagar(this.clienteeGestorServic.generarPago(reservarVehiculoTO.getPlaca(),
+					reservarVehiculoTO.getFechaInicio(), reservarVehiculoTO.getFechaFinal()).getValorTotalAPagar());
 
+			modelo.addAttribute("reservarVehiculoTO", reservarVehiculoTO);
+			modelo.addAttribute("placa", reservarVehiculoTO.getPlaca());
+			
+			
+			return "vehi_pago_c";
+		} else {
+			redirectAttributes.addFlashAttribute("mensaje", "Vehiculo no disponible o Fechas incorrectas");
+			return "redirect:/clientes/disponiblesBuscar?fallo";
+		}
+    
+    }
+    
+    
+    
+    @PostMapping("/insertarPago")
+	public String insertarPago(ReservarVehiculoTO reservarVehiculoTO, BindingResult result, Model modelo,
+			RedirectAttributes redirectAttributes) {
+
+    	System.out.println("metodo pago");
+    	
+		System.out.println(reservarVehiculoTO.getFechaInicio());
+		System.out.println(reservarVehiculoTO.getFechaFinal());
+		System.out.println(reservarVehiculoTO.getPlaca());
+
+		this.clienteeGestorServic.crearReserva(reservarVehiculoTO);
+//		redirectAttributes.addFlashAttribute("mensaje", "Reservacion Creada");
+		return "redirect:/clientes/disponiblesBuscar?exito";
+	}
+    
+    
+    /////////////////////////////////////////////////////////////////////////////////////
     // c.c
+	/////////////////////////////////////////////////////////////////////////////////////
 
     @GetMapping("/registro")	
 	public String registroCliente(Cliente cliente) {
 		return "c_registro";
-
 	}
 
     @GetMapping("/insertar")
 	public String insertarClienteC(Cliente cliente, BindingResult result, Model modelo,
 			RedirectAttributes redirectAttrs) {
-    		this.iGestorClienteService.registrarCliente(cliente);
+    		this.clienteeGestorServic.registrarCliente(cliente);
 		//return "c_registro_valido";
 		return "redirect:/clientes/registro?exito";
 	}
-    
-    
-    
 
     @GetMapping("/editar/{clieCedula}")
     public String editarCliente(@PathVariable("clieCedula") String cedula, Cliente cliente,Model modelo) {
     	Cliente clie = this.clienteService.buscarClientePorCedula(cedula);
-    	LOG.info(clie.toString());
+    	System.out.println(clie.toString());
     	modelo.addAttribute("clie", clie);
     	return "clieActualiza";
     }
@@ -96,59 +139,4 @@ public class ClienteController {
 	   modelo.addAttribute("clientes", clientes);
     	return "todosClientes";
    }
-
-
-//    
-   @GetMapping("retirar/sinReserva")
-	private String retirarSinReserva( ReservarVehiculoTO reservarVehiculoTO, Model modelo) {
-
-		modelo.addAttribute("visible1", false);
-		modelo.addAttribute("visible2", false);
-		modelo.addAttribute("visible3", false);
-		return "sin_reserva";
-	}
-
-	@PostMapping("disponiblidad")
-	public String buscarVehiculosT(@RequestParam("marca") String idMarca,
-			@RequestParam("modelo") String idModelo, Model modelo, 
-			ReservarVehiculoTO reservarVehiculoTO) {
-
-		modelo.addAttribute("listVehiculos", this.iGestorClienteService.buscarVehiculosDisponibles(idMarca, idModelo));
-		modelo.addAttribute("visible1", true);
-		modelo.addAttribute("visible2", true);
-		modelo.addAttribute("visible3", false);
-		return "sin_reserva";
-	}
-
-	@PostMapping("buscarReserva")
-	public String insertarReserva(ReservarVehiculoTO reservarVehiculoTO, 
-			BindingResult result, Model modelo, RedirectAttributes redirectAttributes) {
-
-		if (this.iGestorClienteService.verificarDisponibilidad(reservarVehiculoTO)) {
-			redirectAttributes.addFlashAttribute("mensaje", "Vehiculo disponible");
-			reservarVehiculoTO.setValorTotalAPagar(this.iGestorClienteService.generarPago(reservarVehiculoTO.getPlaca(),
-					reservarVehiculoTO.getFechaInicio(), reservarVehiculoTO.getFechaFinal()).getValorTotalAPagar());
-
-			modelo.addAttribute("reservarVehiculoTO", reservarVehiculoTO);
-			modelo.addAttribute("visible1", false);
-			modelo.addAttribute("visible2", false);
-			modelo.addAttribute("visible3", true);
-			return "sin_reserva";
-		} else {
-			redirectAttributes.addFlashAttribute("mensaje", "Vehiculo no disponible o Fechas incorrectas");
-			return "redirect:/empleados/retirar/sinReserva";
-		}
-
-	}
-
-	@PostMapping("insertarPago")
-	public String insertarPago(ReservarVehiculoTO reservarVehiculoTO,  BindingResult result,
-			Model modelo, RedirectAttributes redirectAttributes) {
-
-		LOG.info(reservarVehiculoTO.getFechaInicio());
-		LOG.info(reservarVehiculoTO.getFechaFinal());
-		this.iGestorClienteService.crearReserva(reservarVehiculoTO);
-		redirectAttributes.addFlashAttribute("mensaje", "Reservacion Creada");
-		return "redirect:/empleados/retirar/sinReserva";
-	}
 }

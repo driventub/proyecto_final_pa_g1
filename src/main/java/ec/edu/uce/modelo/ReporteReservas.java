@@ -3,6 +3,8 @@ package ec.edu.uce.modelo;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class ReporteReservas {
 
 	// 5 de reserva
@@ -10,8 +12,10 @@ public class ReporteReservas {
 
 	private String numero;
 
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
 	private LocalDateTime fechaInicio;
-
+	
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
 	private LocalDateTime fechaFinal;
 
 	private Character estado;

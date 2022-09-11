@@ -15,6 +15,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
 @Table(name = "pago")
 public class Pago {
@@ -34,7 +36,8 @@ public class Pago {
 	@Column(name = "pago_valor_total_pagar")
 	private BigDecimal valorTotalAPagar;
 
-	@Column(name = "pago_fecha_cobro", columnDefinition = "TIMESTAMP")
+	@Column(name = "pago_fecha_cobro")
+	@DateTimeFormat(pattern = "yyyy-MM-dd\'T\'HH:mm")
 	private LocalDateTime fechaCobro;
 
 	@Column(name = "pago_tarjeta")

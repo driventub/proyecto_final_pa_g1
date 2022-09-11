@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
@@ -50,13 +51,19 @@ public class ReservaRepoImpl implements IReservaRepo {
 		TypedQuery<Reserva> myQuery = this.entityManager.createQuery("SELECT r FROM Reserva r WHERE r.numero=: numero",
 				Reserva.class);
 		myQuery.setParameter("numero", numero);
-		return myQuery.getSingleResult();
+		try {
+			return myQuery.getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
 	}
 
 	@Override
 	public List<ReporteReservas> reporteReservas(LocalDateTime fechaInicio, LocalDateTime fechaFinal) {
 		TypedQuery<ReporteReservas> myQuery = this.entityManager.createQuery(
-				"SELECT NEW ec.edu.uce.modelo.ReporteReservas(r.id,r.numero,r.fechaInicio,r.fechaFinal,r.estado,c.apellido,c.cedula,v.placa,v.marca,v.valorPorDia) FROM Reserva r JOIN r.clienteReserva c JOIN r.vehiculoReservado v  WHERE r.fechaInicio>=:fechaInicio AND  r.fechaFinal<=:fechaFinal",
+				"SELECT NEW ec.edu.uce.modelo.ReporteReservas"
+						+ "(r.id,r.numero,r.fechaInicio,r.fechaFinal,r.estado,c.apellido,c.cedula,v.placa,v.marca,v.valorPorDia) "
+						+ "FROM Reserva r JOIN r.cliente c JOIN r.vehiculo v  WHERE r.fechaInicio>=:fechaInicio AND  r.fechaFinal<=:fechaFinal",
 				ReporteReservas.class);
 		myQuery.setParameter("fechaInicio", fechaInicio);
 		myQuery.setParameter("fechaFinal", fechaFinal);
@@ -66,7 +73,7 @@ public class ReservaRepoImpl implements IReservaRepo {
 	@Override
 	public List<Reserva> buscarPorVehiculo(Vehiculo vehiculo) {
 		TypedQuery<Reserva> myQuery = this.entityManager
-				.createQuery("SELECT r  FROM Reserva r where r.vehiculoReservado=:vehiculo", Reserva.class);
+				.createQuery("SELECT r  FROM Reserva r where r.vehiculo=:vehiculo", Reserva.class);
 		myQuery.setParameter("vehiculo", vehiculo);
 		return myQuery.getResultList();
 	}
@@ -83,7 +90,7 @@ public class ReservaRepoImpl implements IReservaRepo {
 		LocalDate localDate = LocalDate.parse(fechaS, DateTimeFormatter.ofPattern("d/MM/yyyy"));
 		LocalDateTime fecha = localDate.atStartOfDay();
 		TypedQuery<ReporteVehiculosVIPTO> myQuery = this.entityManager.createQuery(
-				"SELECT NEW ec.edu.uce.modelo.ReporteVehiculosVIPTO(v,sum( p.valorIVA),sum(p.valorTotalAPagar) AS tot) FROM Reserva r JOIN r.vehiculoReservado v JOIN r.pagos p WHERE r.fechaInicio >=:fecha  GROUP BY v ORDER BY tot DESC",
+				"SELECT NEW ec.edu.uce.modelo.ReporteVehiculosVIPTO(v,sum( p.valorIVA),sum(p.valorTotalAPagar) AS tot) FROM Reserva r JOIN r.vehiculo v JOIN r.pagos p WHERE r.fechaInicio >=:fecha  GROUP BY v ORDER BY tot DESC",
 				ReporteVehiculosVIPTO.class);
 		myQuery.setParameter("fecha", fecha);
 		return myQuery.getResultList();

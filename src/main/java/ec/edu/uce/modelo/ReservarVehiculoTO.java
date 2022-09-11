@@ -13,10 +13,12 @@ public class ReservarVehiculoTO {
 
 	private String cedula;
 
-	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+	//@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+	@DateTimeFormat(pattern = "yyyy-MM-dd\'T\'HH:mm")
 	private LocalDateTime fechaInicio;
 
-	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+	//@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+	@DateTimeFormat(pattern = "yyyy-MM-dd\'T\'HH:mm")
 	private LocalDateTime fechaFinal;
 
 	private BigDecimal valorTotalAPagar;
@@ -82,4 +84,14 @@ public class ReservarVehiculoTO {
 		this.tarjeta = tarjeta;
 	}
 
+	@Override
+	public String toString() {
+		return "ReservarVehiculoTO [placa=" + placa + ", cedula=" + cedula + ", fechaInicio=" + fechaInicio
+				+ ", fechaFinal=" + fechaFinal + ", valorTotalAPagar=" + valorTotalAPagar + ", tarjeta=" + tarjeta
+				+ "]";
+	}
+
+	
+	
+	
 }

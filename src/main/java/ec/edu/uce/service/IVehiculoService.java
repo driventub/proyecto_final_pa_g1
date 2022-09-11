@@ -21,4 +21,6 @@ public interface IVehiculoService {
 	List<Vehiculo> buscarTodos();
 
 	boolean verificarVehiculo(Integer id) ;
+
+	List<Vehiculo> buscarMarca(String marca);
 }

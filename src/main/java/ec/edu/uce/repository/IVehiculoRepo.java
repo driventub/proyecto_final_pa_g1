@@ -21,6 +21,8 @@ public interface IVehiculoRepo {
 
 	boolean verificarVehiculo(Integer id);
 
+	List<Vehiculo> buscarMarca(String marca);
+
 
 
 }
