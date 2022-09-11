@@ -54,7 +54,7 @@ public class GestorClienteServiceImpl implements IGestorClienteService , IIVASer
 
 	@Override
 	@Transactional(value=TxType.REQUIRED)
-	public void reservarVehiculo(String placa, String cedulaCliente, LocalDateTime fechaInicio,
+	public Reserva reservarVehiculo(String placa, String cedulaCliente, LocalDateTime fechaInicio,
 			LocalDateTime fechaFinal, String numeroTarjeta) {
 
 		
@@ -91,7 +91,8 @@ public class GestorClienteServiceImpl implements IGestorClienteService , IIVASer
 		
 		this.iClienteService.actualizarCliente(cliente);
 		this.iReservaService.insertar(reserva);
-
+		
+		return reserva;
 	
 		
 	}
@@ -158,22 +159,22 @@ public class GestorClienteServiceImpl implements IGestorClienteService , IIVASer
 
 	@Override
 	@Transactional
-	public void crearReserva(ReservarVehiculoTO reservarVehiculoTO) {
-		this.reservarVehiculo(reservarVehiculoTO.getPlaca(), reservarVehiculoTO.getCedula(),
+	public Reserva crearReserva(ReservarVehiculoTO reservarVehiculoTO) {
+		return this.reservarVehiculo(reservarVehiculoTO.getPlaca(), reservarVehiculoTO.getCedula(),
 				reservarVehiculoTO.getFechaInicio(), reservarVehiculoTO.getFechaFinal(),
 				reservarVehiculoTO.getTarjeta());
 
 	}
 
 	// Para que es esto??
-	@Override
-	public List<String> buscarVehiculosDisponiblesTexto(String marca, String modelo) {
-		List<Vehiculo> lista = this.iVehiculoService.buscarMarcaModelo(marca, modelo);
-		List<String> listaTexto = new ArrayList<>();
-		for (Vehiculo vehiculo : lista) {
-			listaTexto.add(this.generarVehiculo.apply(vehiculo));
-		}
-		return listaTexto;
-	}
+	// @Override
+	// public List<String> buscarVehiculosDisponiblesTexto(String marca, String modelo) {
+	// 	List<Vehiculo> lista = this.iVehiculoService.buscarMarcaModelo(marca, modelo);
+	// 	List<String> listaTexto = new ArrayList<>();
+	// 	for (Vehiculo vehiculo : lista) {
+	// 		listaTexto.add(this.generarVehiculo.apply(vehiculo));
+	// 	}
+	// 	return listaTexto;
+	// }
 
 }

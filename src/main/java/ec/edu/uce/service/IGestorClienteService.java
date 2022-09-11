@@ -5,16 +5,17 @@ import java.util.List;
 
 import ec.edu.uce.modelo.Cliente;
 import ec.edu.uce.modelo.Pago;
+import ec.edu.uce.modelo.Reserva;
 import ec.edu.uce.modelo.ReservarVehiculoTO;
 import ec.edu.uce.modelo.Vehiculo;
 
 public interface IGestorClienteService {
 
-	List<String> buscarVehiculosDisponiblesTexto(String marca, String modelo);
+	// List<String> buscarVehiculosDisponiblesTexto(String marca, String modelo);
 
 	List<Vehiculo> buscarVehiculosDisponibles(String marca, String modelo);
 
-	void reservarVehiculo(String placa, String cedulaCliente, LocalDateTime fechaInicio, LocalDateTime fechaFinal,
+	Reserva reservarVehiculo(String placa, String cedulaCliente, LocalDateTime fechaInicio, LocalDateTime fechaFinal,
 			String numeroTarjeta);
 
 	void registrarCliente(Cliente cliente);
@@ -23,6 +24,6 @@ public interface IGestorClienteService {
 
 	Pago generarPago(String placa, LocalDateTime fechaInicio, LocalDateTime fechaFinal);
 
-	void crearReserva(ReservarVehiculoTO reservarVehiculoTO);
+	Reserva crearReserva(ReservarVehiculoTO reservarVehiculoTO);
 
 }

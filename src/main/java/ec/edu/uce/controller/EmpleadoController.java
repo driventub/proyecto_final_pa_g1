@@ -301,9 +301,9 @@ public class EmpleadoController {
 
 //		System.out.println(reservarVehiculoTO.getFechaInicio());
 //		System.out.println(reservarVehiculoTO.getFechaFinal());
-		this.gestorClienteService.crearReserva(reservarVehiculoTO);
+		Reserva reserva = this.gestorClienteService.crearReserva(reservarVehiculoTO);
 
-		// this.gestorEmpleadoService.retirarVehiculoReservado(reserva, vehiculo);
+		this.gestorEmpleadoService.retirarVehiculoReservado(reserva, reserva.getVehiculo());
 		
 		redirectAttributes.addFlashAttribute("mensaje", "Reservacion Creada");
 		return "redirect:/empleados/retirar/sinReserva";

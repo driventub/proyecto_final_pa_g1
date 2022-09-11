@@ -16,22 +16,7 @@
 
 	
 	
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-		<div class="container-fluid">
-			<a class="navbar-brand" href="/empleados/vehiTodos">Control de
-				Vehiculos</a>
-
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-
-					<li class="nav-item"><a class="nav-link"
-						href="#">Agregar Vehiculo</a></li>
-
-				</ul>
-
-			</div>
-		</div>
-	</nav>
+	<div th:replace = "fragments/empleado_header :: empleado_header"></div>
 
 	<div th:classappend="'alert-' + (${clase != null} ? ${clase} : info)"
 		th:if="${mensaje != null}" th:text="${mensaje}" class="alert"></div>

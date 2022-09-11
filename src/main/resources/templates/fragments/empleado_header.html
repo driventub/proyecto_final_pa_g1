@@ -1,27 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-	crossorigin="anonymous">
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
 </head>
+
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" th:fragment="empleado_header">
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark" th:fragment="empleado_header">
 		<div class="container-fluid">
-			<a class="navbar-brand" href="/empleados/todos">Control de
-				Clientes</a>
+			<a class="navbar-brand" href="/empleados/todos">
+				Empleados</a>
 
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
-					<li class="nav-item"><a class="nav-link"
-						th:href="@{/empleados/registro}">Agregar Cliente</a></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/empleados/registro}">Agregar Cliente</a></li>
+
+					<li class="nav-item"><a class="nav-link" th:href="@{/empleados/vehiTodos}">Ingresar Vehiculo</a></li>
+
+					<li class="nav-item"><a class="nav-link" th:href="@{/empleados/registro}">Agregar Cliente</a></li>
 
 				</ul>
 
@@ -29,4 +32,5 @@
 		</div>
 	</nav>
 </body>
+
 </html>
